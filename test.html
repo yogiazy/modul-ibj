@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="font-size: 200px;">
+        Yuk:
+        <div id="myApp"></div>
+    </div>
+
+    <!-- <script src="test.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/mqtt/dist/mqtt.min.js"></script>
+    <script>
+        // Replace 'YOUR_TOPIC' with the topic you want to subscribe to
+        const topic = 'yogiazy/dev';
+
+        // Connect to the MQTT broker
+        const client = mqtt.connect('wss://test.mosquitto.org:8081'); // Use wss for secure connection
+
+        // Set up event handler for successful connection
+        client.on('connect', function () {
+            console.log('Connected to MQTT broker');
+
+            // Subscribe to the specified topic
+            client.subscribe(topic);
+        });
+
+        // Set up event handler for incoming messages
+        client.on('message', function (topic, message) {
+            console.log(`${topic}: ${message.toString()}`);
+            document.getElementById('myApp').textContent = `${topic}: ${message.toString()}`;
+        });
+    </script>
+</body>
+
+</html>
